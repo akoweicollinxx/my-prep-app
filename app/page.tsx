@@ -194,25 +194,25 @@ export default function Dashboard() {
 
             {/* Floating Badges */}
             <div className="absolute top-0 left-10 w-12 h-12 bg-gradient-to-br from-orange-500 to-red-500 rounded-lg flex items-center justify-center text-white font-bold text-xs animate-bounce">
-              HTML
+              Think
             </div>
             <div
               className="absolute top-0 right-10 w-12 h-12 bg-gradient-to-br from-blue-500 to-purple-500 rounded-lg flex items-center justify-center text-white font-bold text-xs animate-bounce"
               style={{ animationDelay: "0.5s" }}
             >
-              CSS
+              Plan
             </div>
             <div
               className="absolute bottom-0 left-10 w-12 h-12 bg-gradient-to-br from-yellow-500 to-orange-500 rounded-lg flex items-center justify-center text-white font-bold text-xs animate-bounce"
               style={{ animationDelay: "1s" }}
             >
-              JS
+              Learn
             </div>
             <div
               className="absolute bottom-0 right-10 w-12 h-12 bg-gradient-to-br from-purple-500 to-indigo-500 rounded-lg flex items-center justify-center text-white font-bold text-xs animate-bounce"
               style={{ animationDelay: "1.5s" }}
             >
-              PHP
+              Succeed
             </div>
           </div>
 
