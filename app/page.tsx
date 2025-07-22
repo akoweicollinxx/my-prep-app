@@ -156,7 +156,7 @@ export default function Dashboard() {
             {/* Welcome Message with User Info */}
             {user && (
               <div className="bg-gradient-to-r from-purple-500/20 to-cyan-500/20 backdrop-blur-sm border border-purple-500/30 rounded-lg p-4">
-                <p className="text-purple-300 text-sm">Welcome back,</p>
+                <p className="text-purple-300 text-sm">Welcome,</p>
                 <p className="text-white font-semibold text-lg">
                   {user.firstName || user.username || user.emailAddresses[0]?.emailAddress}
                 </p>
