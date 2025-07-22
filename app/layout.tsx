@@ -22,8 +22,7 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: 'InterPrep',
-  description: 'Get Interview-Ready with AI-
-Powered Practice & Feedback',
+  description: 'AI Interview Practice Web App',
 }
 
 export default function RootLayout({
