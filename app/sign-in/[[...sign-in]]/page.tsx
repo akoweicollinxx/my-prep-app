@@ -98,8 +98,13 @@ export default function Page() {
       <div className="absolute bottom-1/3 right-[15%] w-80 h-80 bg-cyan-500/20 rounded-full blur-3xl animate-pulse z-0"></div>
 
       {/* Sign-In Box */}
+<<<<<<< HEAD
       <div className="relative z-10 w-full max-w-md px-4">
         <div className="w-full p-10 border border-purple-500/30 rounded-3xl backdrop-blur-xl bg-white/5 shadow-2xl">
+=======
+      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-black via-purple-900 to-black px-4">
+        <div className="w-full max-w-md p-4 border border-purple-500/30 rounded-3xl backdrop-blur-xl bg-white/5 shadow-2xl">
+>>>>>>> 0133e6a99016cf084259adc764c5a73d7e884651
           <SignIn />
         </div>
       </div>

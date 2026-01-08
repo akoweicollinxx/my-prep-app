@@ -156,7 +156,7 @@ export default function Dashboard() {
             {/* Welcome Message with User Info */}
             {user && (
               <div className="bg-gradient-to-r from-purple-500/20 to-cyan-500/20 backdrop-blur-sm border border-purple-500/30 rounded-lg p-4">
-                <p className="text-purple-300 text-sm">Welcome back,</p>
+                <p className="text-purple-300 text-sm">Welcome,</p>
                 <p className="text-white font-semibold text-lg">
                   {user.firstName || user.username || user.emailAddresses[0]?.emailAddress}
                 </p>
@@ -206,7 +206,11 @@ export default function Dashboard() {
               className="absolute bottom-0 left-10 w-12 h-12 bg-gradient-to-br from-yellow-500 to-orange-500 rounded-lg flex items-center justify-center text-white font-bold text-xs animate-bounce"
               style={{ animationDelay: "1s" }}
             >
+<<<<<<< HEAD
               create
+=======
+              Learn
+>>>>>>> 0133e6a99016cf084259adc764c5a73d7e884651
             </div>
             <div
               className="absolute bottom-0 right-10 w-12 h-12 bg-gradient-to-br from-purple-500 to-indigo-500 rounded-lg flex items-center justify-center text-white font-bold text-xs animate-bounce"
