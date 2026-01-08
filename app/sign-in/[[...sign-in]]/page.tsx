@@ -99,7 +99,7 @@ export default function Page() {
 
       {/* Sign-In Box */}
       <div className="relative z-10 w-full max-w-md px-4">
-        <div className="w-full p-2 border border-purple-500/30 rounded-3xl backdrop-blur-xl bg-white/5 shadow-2xl">
+        <div className="w-full p-10 border border-purple-500/30 rounded-3xl backdrop-blur-xl bg-white/5 shadow-2xl">
           <SignIn />
         </div>
       </div>

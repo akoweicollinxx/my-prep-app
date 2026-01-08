@@ -174,7 +174,7 @@ export default function InterviewPage() {
         <div className="p-10 rounded-3xl border border-purple-500/50 bg-gradient-to-br from-[#1c1f3f] to-[#1a1a2e] hover:shadow-[0_0_30px_rgba(147,51,234,0.5)] transition-all duration-300 ease-in-out text-center transform hover:scale-105">
           <div className="flex flex-col items-center space-y-6">
             <div className="w-24 h-24 rounded-full bg-gradient-to-br from-purple-400 to-cyan-400 flex items-center justify-center shadow-lg relative">
-              <Image src="/myai.PNG" alt="AI Interviewer" width={50} height={50} />
+              <Image src="/myai.png" alt="AI Interviewer" width={50} height={50} />
               {isSpeaking && (
                 <span className="absolute w-4 h-4 rounded-full bg-green-400 animate-ping top-0 right-0" />
               )}
