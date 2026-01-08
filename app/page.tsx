@@ -206,11 +206,7 @@ export default function Dashboard() {
               className="absolute bottom-0 left-10 w-12 h-12 bg-gradient-to-br from-yellow-500 to-orange-500 rounded-lg flex items-center justify-center text-white font-bold text-xs animate-bounce"
               style={{ animationDelay: "1s" }}
             >
-<<<<<<< HEAD
-              create
-=======
               Learn
->>>>>>> 0133e6a99016cf084259adc764c5a73d7e884651
             </div>
             <div
               className="absolute bottom-0 right-10 w-12 h-12 bg-gradient-to-br from-purple-500 to-indigo-500 rounded-lg flex items-center justify-center text-white font-bold text-xs animate-bounce"
