@@ -83,18 +83,20 @@ export default function HowItWorks() {
           </p>
         </div>
 
-        <div className="relative aspect-video rounded-3xl overflow-hidden border border-white/10 bg-white/5 backdrop-blur-sm shadow-2xl group">
-          <video 
-            className="w-full h-full object-cover"
-            controls
-            playsInline
-            muted
-            autoPlay
-          >
-            <source src="/video/howit.mp4" type="video/mp4" />
-            Your browser does not support the video tag.
-          </video>
-        </div>
+          <div className="relative aspect-video rounded-3xl overflow-hidden border border-white/10 bg-white/5 backdrop-blur-sm shadow-2xl">
+              <video
+                  className="w-full h-full object-cover"
+                  src="/public/video/howit.mp4"
+                  controls
+                  playsInline
+                  muted
+                  autoPlay
+                  preload="auto"
+                  loop
+              >
+                  Your browser does not support the video tag.
+              </video>
+          </div>
 
         <div className="mt-20 grid md:grid-cols-3 gap-8 text-center">
             <div className="space-y-4">

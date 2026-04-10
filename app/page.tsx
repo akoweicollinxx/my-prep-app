@@ -179,7 +179,7 @@ export default function LandingPage() {
           <div className="flex gap-8 text-sm text-gray-500">
             <Link href="/privacy" className="hover:text-white transition-colors">Privacy</Link>
             <Link href="/terms" className="hover:text-white transition-colors">Terms</Link>
-            <a href="#" className="hover:text-white transition-colors">Twitter</a>
+            <a href="https://www.instagram.com/cealadigital/" className="hover:text-white transition-colors">Instagram</a>
           </div>
         </div>
       </footer>
