@@ -100,7 +100,7 @@ export default function Page() {
       {/* Sign-In Box */}
       <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-black via-purple-900 to-black px-4">
         <div className="w-full max-w-md p-4 border border-purple-500/30 rounded-3xl backdrop-blur-xl bg-white/5 shadow-2xl">
-          <SignIn />
+          <SignIn routing="path" path="/sign-in" signUpUrl="/sign-up" />
         </div>
       </div>
     </main>
