@@ -20,12 +20,12 @@ export default function TermsPage() {
 
       <nav className="relative z-10 flex items-center justify-between px-6 py-8 max-w-7xl mx-auto">
         <Link href="/" className="flex items-center space-x-2">
-          <div className="w-10 h-10 bg-gradient-to-br from-purple-600 to-cyan-600 rounded-xl flex items-center justify-center font-bold text-xl shadow-lg shadow-purple-500/20">
-            P
-          </div>
-          <span className="text-xl font-bold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-white to-gray-400">
-            PrepApp
-          </span>
+            <div className="w-10 h-10 bg-gradient-to-br from-purple-500 to-cyan-500 rounded-full flex items-center justify-center">
+                <div className="w-6 h-6 bg-white rounded-full animate-pulse" />
+            </div>
+            <h1 className="text-2xl font-semibold bg-gradient-to-r from-purple-400 to-cyan-400 bg-clip-text text-transparent">
+                InterPrep
+            </h1>
         </Link>
       </nav>
 
