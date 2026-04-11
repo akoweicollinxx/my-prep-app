@@ -79,13 +79,13 @@ export default function LandingPage() {
         <div className="flex gap-2 sm:gap-4">
           <Link
             href="/sign-in"
-            className="px-3 py-1.5 sm:px-4 sm:py-2 rounded-full border border-white/10 bg-white/5 backdrop-blur-sm text-xs sm:text-sm font-medium hover:bg-white/10 transition-all whitespace-nowrap"
+            className="px-3 py-1.5 sm:px-6 sm:py-3 rounded-full border border-white/10 bg-white/5 backdrop-blur-sm text-xs sm:text-base font-medium hover:bg-white/10 transition-all whitespace-nowrap"
           >
             Sign In
           </Link>
           <Link
             href="/sign-up"
-            className="px-3 py-1.5 sm:px-4 sm:py-2 rounded-full bg-gradient-to-r from-purple-600 to-cyan-600 text-white text-xs sm:text-sm font-medium hover:shadow-[0_0_20px_rgba(147,51,234,0.3)] transition-all whitespace-nowrap"
+            className="px-3 py-1.5 sm:px-6 sm:py-3 rounded-full bg-gradient-to-r from-purple-600 to-cyan-600 text-white text-xs sm:text-base font-medium hover:shadow-[0_0_20px_rgba(147,51,234,0.3)] transition-all whitespace-nowrap"
           >
             Get Started
           </Link>
