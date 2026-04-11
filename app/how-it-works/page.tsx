@@ -83,19 +83,14 @@ export default function HowItWorks() {
           </p>
         </div>
 
-          <div className="relative aspect-video rounded-3xl overflow-hidden border border-white/10 bg-white/5 backdrop-blur-sm shadow-2xl">
-              <video
-                  className="w-full h-full object-cover"
-                  src="/public/video/howit.mp4"
-                  controls
-                  playsInline
-                  muted
-                  autoPlay
-                  preload="auto"
-                  loop
-              >
-                  Your browser does not support the video tag.
-              </video>
+          <div className="relative aspect-video rounded-3xl overflow-hidden border border-white/10 shadow-2xl">
+              <iframe
+                  className="w-full h-full"
+                  src="https://www.youtube.com/embed/YU_wcYLN7pk"
+                  title="How InterPrep Works"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                  allowFullScreen
+              />
           </div>
 
         <div className="mt-20 grid md:grid-cols-3 gap-8 text-center">
