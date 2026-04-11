@@ -1,11 +1,10 @@
-const pdf = require('pdf-parse');
-
 /**
  * Extracts text content from a PDF buffer.
  * @param buffer - The PDF file as a buffer.
  * @returns Extracted text
  */
 export async function extractTextFromPDF(buffer: Buffer): Promise<string> {
+  const pdf = require('pdf-parse');
   try {
     const data = await pdf(buffer);
     return data.text;
