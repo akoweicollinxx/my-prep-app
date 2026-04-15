@@ -3,10 +3,8 @@
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
-import Vapi from '@vapi-ai/web';
+import vapi from '@/lib/vapi';
 import { useUser } from '@clerk/nextjs';
-
-const vapi = new Vapi(process.env.NEXT_PUBLIC_VAPI_WEB_TOKEN!);
 
 // ✅ Type definitions for background
 type Particle = {
@@ -101,7 +99,7 @@ export default function InterviewPage() {
     setIsClient(true);
 
     // Background animation data
-    const particleData: Particle[] = Array.from({ length: 50 }, (_, i) => ({
+    const particleData: Particle[] = Array.from({ length: 15 }, (_, i) => ({
       id: i,
       left: Math.random() * 100,
       top: Math.random() * 100,
@@ -110,9 +108,9 @@ export default function InterviewPage() {
     }));
     setParticles(particleData);
 
-    const codeRainData: CodeRain[] = Array.from({ length: 20 }, (_, i) => ({
+    const codeRainData: CodeRain[] = Array.from({ length: 8 }, (_, i) => ({
       id: i,
-      left: i * 5,
+      left: i * 12,
       animationDelay: i * 0.5,
       bits: "010110101".split(""),
     }));
@@ -178,8 +176,8 @@ export default function InterviewPage() {
           <div className="absolute inset-0 bg-[linear-gradient(rgba(147,51,234,0.3)_1px,transparent_1px),linear-gradient(90deg,rgba(147,51,234,0.3)_1px,transparent_1px)] bg-[size:100px_100px] animate-pulse" />
         </div>
 
-        {/* Floating Particles */}
-        {isClient && (
+        {/* Floating Particles — hidden during calls to free CPU for audio */}
+        {isClient && !isCalling && (
           <div className="absolute inset-0">
             {particles.map((particle) => (
               <div
@@ -200,8 +198,8 @@ export default function InterviewPage() {
         <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-gradient-to-r from-cyan-500 to-blue-500 rounded-full blur-3xl opacity-20 animate-pulse" />
         <div className="absolute top-3/4 left-1/3 w-48 h-48 bg-gradient-to-r from-emerald-500 to-teal-500 rounded-full blur-3xl opacity-20 animate-pulse" />
 
-        {/* Matrix Code Rain */}
-        {isClient && (
+        {/* Matrix Code Rain — hidden during calls to free CPU for audio */}
+        {isClient && !isCalling && (
           <div className="absolute inset-0 overflow-hidden opacity-10">
             {codeRain.map((rain) => (
               <div

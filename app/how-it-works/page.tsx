@@ -86,7 +86,7 @@ export default function HowItWorks() {
           <div className="relative aspect-video rounded-3xl overflow-hidden border border-white/10 shadow-2xl">
               <iframe
                   className="w-full h-full"
-                  src="https://www.youtube.com/embed/YU_wcYLN7pk"
+                  src="https://youtu.be/ZeO4GjcGAgU"
                   title="How NextEmployed Works"
                   allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                   allowFullScreen
