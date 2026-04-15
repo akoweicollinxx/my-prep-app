@@ -73,7 +73,7 @@ export default function LandingPage() {
                     <div className="w-6 h-6 bg-white rounded-full animate-pulse" />
                 </div>
                 <h1 className="text-2xl font-semibold bg-gradient-to-r from-purple-400 to-cyan-400 bg-clip-text text-transparent">
-                    InterPrep
+                    NextEmployed
                 </h1>
         </div>
         <div className="flex gap-2 sm:gap-4">
@@ -110,7 +110,7 @@ export default function LandingPage() {
           </h1>
           
           <p className="text-gray-400 text-lg md:text-xl max-w-2xl mx-auto leading-relaxed">
-            Personalized practice questions, real-time feedback, and comprehensive study plans powered by advanced AI.
+            Fix your CV, understand the role, and practice with AI before the real interview.
           </p>
 
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-4">
@@ -140,20 +140,21 @@ export default function LandingPage() {
         <section className="mt-32 grid md:grid-cols-3 gap-8">
           {[
             {
-              title: "AI Simulations",
-              desc: "Practice with our state-of-the-art AI interviewer that adapts to your skill level.",
+              title: "CV Scoring That Shows What to Fix",
+              desc: "Get a clear match score for your target job, see what’s missing, and improve your CV with simple, actionable suggestions.",
+              icon: "📊"
+            },
+            {
+              title: "AI Interview Practice That Feels Real",
+              desc: "Practice with an AI interviewer that asks realistic questions and gives instant feedback to improve your answers.",
               icon: "🤖"
             },
             {
-              title: "Tailored Content",
-              desc: "Get questions specifically selected for your target role and company.",
+              title: "Job-Specific Preparation",
+              desc: "Prepare for the exact role you’re applying for with questions and insights tailored to the job description.",
               icon: "🎯"
             },
-            {
-              title: "Detailed Analytics",
-              desc: "Track your progress with deep insights into your performance and areas for improvement.",
-              icon: "📊"
-            }
+            
           ].map((feature, i) => (
             <div 
               key={i} 

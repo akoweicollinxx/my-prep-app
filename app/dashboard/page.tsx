@@ -149,7 +149,7 @@ export default function Dashboard() {
                 <div className="w-6 h-6 bg-white rounded-full animate-pulse" />
               </div>
               <h1 className="text-2xl font-semibold bg-gradient-to-r from-purple-400 to-cyan-400 bg-clip-text text-transparent">
-                InterPrep
+                NextEmployed
               </h1>
             </div>
 
@@ -164,8 +164,7 @@ export default function Dashboard() {
             )}
 
             <h2 className="text-3xl md:text-4xl font-bold leading-snug bg-gradient-to-r from-white via-purple-200 to-cyan-200 bg-clip-text text-transparent">
-              Get Interview-Ready with AI-<br className="hidden md:block" />
-              Powered Practice & Feedback
+             Fix Your CV. Practice Interviews. Get Hired.
             </h2>
 
             <p className="text-gray-300 text-lg">
@@ -187,7 +186,14 @@ export default function Dashboard() {
                 onClick={() => router.push("/generate-questions")}
                 className="bg-white/10 hover:bg-white/20 text-white font-semibold cursor-pointer text-sm py-3 px-6 rounded-full w-max shadow-lg transform hover:scale-105 transition-all duration-300 border border-white/20"
               >
-                Generate Questions
+                Generate Interview Questions & Answers
+              </button>
+
+              <button
+                onClick={() => router.push("/cv-analyser")}
+                className="bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-600 hover:to-teal-600 text-white font-semibold cursor-pointer text-sm py-3 px-6 rounded-full w-max shadow-lg transform hover:scale-105 transition-all duration-300 border border-emerald-400/50"
+              >
+                Fix your Resume
               </button>
             </div>
           </div>

@@ -24,7 +24,7 @@ export default function PrivacyPage() {
                 <div className="w-6 h-6 bg-white rounded-full animate-pulse" />
             </div>
             <h1 className="text-2xl font-semibold bg-gradient-to-r from-purple-400 to-cyan-400 bg-clip-text text-transparent">
-                InterPrep
+                NextEmployed
             </h1>
         </Link>
       </nav>
@@ -35,7 +35,7 @@ export default function PrivacyPage() {
         </h1>
         <div className="space-y-6 text-gray-400 leading-relaxed">
           <p>
-            Your privacy is important to us. This Privacy Policy explains how we collect, use, and protect your personal information when you use InterPrep.
+            Your privacy is important to us. This Privacy Policy explains how we collect, use, and protect your personal information when you use NextEmployed.
           </p>
           <section>
             <h2 className="text-xl font-semibold text-white mb-3">1. Information We Collect</h2>

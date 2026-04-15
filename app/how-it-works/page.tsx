@@ -54,7 +54,7 @@ export default function HowItWorks() {
             <div className="w-6 h-6 bg-white rounded-full animate-pulse" />
           </div>
           <h1 className="text-2xl font-semibold bg-gradient-to-r from-purple-400 to-cyan-400 bg-clip-text text-transparent">
-            InterPrep
+            NextEmployed
           </h1>
         </Link>
         <div className="flex gap-4">
@@ -79,7 +79,7 @@ export default function HowItWorks() {
             How It <span className="bg-clip-text text-transparent bg-gradient-to-r from-purple-400 to-cyan-400">Works</span>
           </h1>
           <p className="text-gray-400 text-lg md:text-xl max-w-2xl mx-auto leading-relaxed">
-            Watch this video to understand how InterPrep can help you master your next technical interview.
+            Watch this video to understand how NextEmployed can help you master your next technical interview.
           </p>
         </div>
 
@@ -87,7 +87,7 @@ export default function HowItWorks() {
               <iframe
                   className="w-full h-full"
                   src="https://www.youtube.com/embed/YU_wcYLN7pk"
-                  title="How InterPrep Works"
+                  title="How NextEmployed Works"
                   allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                   allowFullScreen
               />
@@ -96,18 +96,18 @@ export default function HowItWorks() {
         <div className="mt-20 grid md:grid-cols-3 gap-8 text-center">
             <div className="space-y-4">
                 <div className="text-3xl">📝</div>
-                <h3 className="text-xl font-bold">1. Upload Resume</h3>
-                <p className="text-gray-400">Upload your PDF resume to let our AI analyze your skills and experience.</p>
+                <h3 className="text-xl font-bold">Practice the Exact Interview</h3>
+                <p className="text-gray-400">Answer questions based on the role and get feedback to improve your performance.</p>
             </div>
             <div className="space-y-4">
                 <div className="text-3xl">🤖</div>
-                <h3 className="text-xl font-bold">2. AI Simulation</h3>
-                <p className="text-gray-400">Our AI generates realistic interview questions based on your profile and target role.</p>
+                <h3 className="text-xl font-bold">Upload Your CV & Target Job</h3>
+                <p className="text-gray-400">Add your CV and paste the job you’re applying for. Everything is tailored to this role from the start.</p>
             </div>
             <div className="space-y-4">
                 <div className="text-3xl">📈</div>
-                <h3 className="text-xl font-bold">3. Get Feedback</h3>
-                <p className="text-gray-400">Receive detailed feedback on your answers and a plan to improve.</p>
+                <h3 className="text-xl font-bold">Optimise Your CV for This Role</h3>
+                <p className="text-gray-400">See your match score, missing keywords, and exactly what to fix to align with the job requirements.</p>
             </div>
         </div>
 

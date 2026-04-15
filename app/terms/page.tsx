@@ -24,7 +24,7 @@ export default function TermsPage() {
                 <div className="w-6 h-6 bg-white rounded-full animate-pulse" />
             </div>
             <h1 className="text-2xl font-semibold bg-gradient-to-r from-purple-400 to-cyan-400 bg-clip-text text-transparent">
-                InterPrep
+                NextEmployed
             </h1>
         </Link>
       </nav>
@@ -35,7 +35,7 @@ export default function TermsPage() {
         </h1>
         <div className="space-y-6 text-gray-400 leading-relaxed">
           <p>
-            Welcome to InterPrep. By accessing or using our services, you agree to be bound by these Terms of Service.
+            Welcome to NextEmployed. By accessing or using our services, you agree to be bound by these Terms of Service.
           </p>
           <section>
             <h2 className="text-xl font-semibold text-white mb-3">1. Use of Services</h2>

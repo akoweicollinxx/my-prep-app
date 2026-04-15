@@ -191,7 +191,7 @@ export default function GenerateQuestionsPage() {
                   <div className="w-6 h-6 bg-white rounded-full animate-pulse" />
                 </div>
                 <h1 className="text-2xl font-semibold bg-gradient-to-r from-purple-400 to-cyan-400 bg-clip-text text-transparent">
-                  InterPrep
+                  NextEmployed
                 </h1>
               </div>
 

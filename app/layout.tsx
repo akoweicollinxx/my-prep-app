@@ -18,8 +18,8 @@ const geistMono = Geist_Mono({
 })
 
 export const metadata: Metadata = {
-  title: 'InterPrep',
-  description: 'AI Interview Practice Web App',
+  title: 'NextEmployed',
+  description: 'AI-Powered CV Analysis & Interview Practice',
 }
 
 export default function RootLayout({
