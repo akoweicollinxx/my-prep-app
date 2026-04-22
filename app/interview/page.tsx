@@ -141,6 +141,7 @@ export default function InterviewPage() {
       vapi.off('speech-start', handleSpeechStart);
       vapi.off('speech-end', handleSpeechEnd);
       vapi.off('error', handleError);
+      vapi.stop();
     };
   }, []);
 
