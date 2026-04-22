@@ -18,8 +18,9 @@ const geistMono = Geist_Mono({
 })
 
 export const metadata: Metadata = {
-  title: 'NextEmployed',
-  description: 'AI-Powered CV Analysis & Interview Practice',
+  title: 'NextEmployed | AI CV Optimisation & Interview Preparation',
+  description:
+    'Improve your CV, boost your ATS score, practise tailored interview questions, and prepare with AI-powered mock interviews. Get hired faster with NextEmployed.',
 }
 
 export default function RootLayout({
