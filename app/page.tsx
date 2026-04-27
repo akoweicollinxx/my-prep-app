@@ -118,7 +118,7 @@ export default function LandingPage() {
               href="/sign-up"
               className="w-full sm:w-auto px-8 py-4 rounded-full bg-gradient-to-r from-purple-600 to-cyan-600 text-white font-bold text-lg hover:shadow-[0_0_40px_rgba(147,51,234,0.3)] transition-all transform hover:scale-105 active:scale-95 flex items-center justify-center group"
             >
-              Start Practicing Free
+              Get Started for Free
               <svg 
                 className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" 
                 fill="none" 
