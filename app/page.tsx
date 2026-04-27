@@ -103,9 +103,9 @@ export default function LandingPage() {
           </div>
           
           <h1 className="text-6xl md:text-8xl font-black tracking-tighter leading-[1.1] max-w-4xl mx-auto">
-              Walk Into Any Interview <br />
+              You’re qualified. <br />
             <span className="bg-clip-text text-transparent bg-gradient-to-r from-purple-400 via-cyan-400 to-emerald-400 animate-gradient-x bg-[length:200%_200%]">
-              Ready to Win
+              Now let’s make sure they know it
             </span>
           </h1>
           
