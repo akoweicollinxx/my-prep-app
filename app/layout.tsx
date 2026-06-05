@@ -5,6 +5,8 @@ import {
   UserButton,
 } from '@clerk/nextjs'
 import { Geist, Geist_Mono } from 'next/font/google'
+import { PostHogProvider } from '@/components/providers/PostHogProvider'
+import { PostHogIdentify } from '@/components/providers/PostHogIdentify'
 import './globals.css'
 
 const geistSans = Geist({
@@ -32,12 +34,15 @@ export default function RootLayout({
     <ClerkProvider>
       <html lang="en">
         <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
-          <header className="flex justify-end items-center p-4 gap-4 h-16">
-            <SignedIn>
-              <UserButton />
-            </SignedIn>
-          </header>
-          {children}
+          <PostHogProvider>
+            <PostHogIdentify />
+            <header className="flex justify-end items-center p-4 gap-4 h-16">
+              <SignedIn>
+                <UserButton />
+              </SignedIn>
+            </header>
+            {children}
+          </PostHogProvider>
         </body>
       </html>
     </ClerkProvider>

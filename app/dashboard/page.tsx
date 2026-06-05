@@ -182,14 +182,7 @@ export default function Dashboard() {
                 </span>
               </button>
 
-              <button
-                onClick={() => router.push("/generate-questions")}
-                className="bg-white/10 hover:bg-white/20 text-white font-semibold cursor-pointer text-sm py-3 px-6 rounded-full w-max shadow-lg transform hover:scale-105 transition-all duration-300 border border-white/20"
-              >
-                Generate Interview Questions & Answers
-              </button>
-
-              <button
+<button
                 onClick={() => router.push("/cv-analyser")}
                 className="bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-600 hover:to-teal-600 text-white font-semibold cursor-pointer text-sm py-3 px-6 rounded-full w-max shadow-lg transform hover:scale-105 transition-all duration-300 border border-emerald-400/50"
               >

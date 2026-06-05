@@ -1,30 +1,66 @@
 'use client';
 
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useAuth } from '@clerk/nextjs';
-import { AnalysisForm } from '@/components/analysis/AnalysisForm';
+import { track } from '@/lib/track';
 import { AnalysisResult } from '@/components/analysis/AnalysisResult';
 import { LoadingState } from '@/components/analysis/LoadingState';
-import { track } from '@/lib/track';
 import { SUBMISSION_KEY } from '@/lib/submission-key';
+const TTL_MS = 60 * 60 * 1000; // 1 hour
 
-type Status = 'idle' | 'streaming' | 'done' | 'error' | 'rate-limited';
+type Submission = {
+  cvText: string;
+  jobDescription: string;
+  teaserResult: string;
+  submittedAt: number;
+};
 
-export default function CVAnalyserPage() {
+type Status = 'loading' | 'streaming' | 'done' | 'error' | 'orphaned';
+
+export default function TryResultsPage() {
   const router = useRouter();
   const { isLoaded, isSignedIn } = useAuth();
-  const [status, setStatus] = useState<Status>('idle');
+  const [status, setStatus] = useState<Status>('loading');
   const [result, setResult] = useState('');
-  const [error, setError] = useState<string | null>(null);
-  const [resetKey, setResetKey] = useState(0);
+  const [teaserResult, setTeaserResult] = useState('');
+  const [error, setError] = useState('');
   const resultRef = useRef<HTMLDivElement>(null);
+  const hasStarted = useRef(false);
 
   useEffect(() => {
-    if (isLoaded && !isSignedIn) {
-      router.replace('/sign-up?redirect_url=/cv-analyser');
+    if (!isLoaded) return;
+    if (!isSignedIn) {
+      router.replace('/sign-in?redirect_url=%2Ftry%2Fresults');
+      return;
     }
+
+    if (hasStarted.current) return;
+    hasStarted.current = true;
+
+    let submission: Submission | null = null;
+    try {
+      const raw = sessionStorage.getItem(SUBMISSION_KEY);
+      if (raw) {
+        const parsed = JSON.parse(raw) as Submission;
+        if (Date.now() - parsed.submittedAt < TTL_MS) {
+          submission = parsed;
+        }
+      }
+    } catch {
+      // sessionStorage unavailable
+    }
+
+    if (!submission || !submission.cvText || !submission.jobDescription) {
+      setStatus('orphaned');
+      track('try_results_orphaned');
+      return;
+    }
+
+    setTeaserResult(submission.teaserResult ?? '');
+    track('try_results_page_viewed');
+    runFullAnalysis(submission);
   }, [isLoaded, isSignedIn, router]);
 
   useEffect(() => {
@@ -33,26 +69,22 @@ export default function CVAnalyserPage() {
     }
   }, [status]);
 
-  const handleSubmit = async (cvText: string, jobDescription: string) => {
+  async function runFullAnalysis(submission: Submission) {
     setStatus('streaming');
-    setResult('');
-    setError(null);
 
     let response: Response;
     try {
       response = await fetch('/api/try/results', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ cvText, jobDescription }),
+        body: JSON.stringify({
+          cvText: submission.cvText,
+          jobDescription: submission.jobDescription,
+        }),
       });
     } catch {
       setError('Network error. Check your connection and try again.');
       setStatus('error');
-      return;
-    }
-
-    if (response.status === 429) {
-      setStatus('rate-limited');
       return;
     }
 
@@ -76,26 +108,11 @@ export default function CVAnalyserPage() {
       // Stream interrupted — show what arrived
     }
 
-    try {
-      sessionStorage.setItem(SUBMISSION_KEY, JSON.stringify({
-        cvText,
-        jobDescription,
-        teaserResult: '',
-        submittedAt: Date.now(),
-      }));
-    } catch {
-      // sessionStorage unavailable
-    }
-
     setStatus('done');
-  };
-
-  const handleReset = useCallback(() => {
-    setStatus('idle');
-    setResult('');
-    setError(null);
-    setResetKey((k) => k + 1);
-  }, []);
+    // Keep submission in sessionStorage — /try/tailored-cv needs it.
+    // It expires via the 1-hour TTL checked on every read.
+    track('try_results_completed');
+  }
 
   if (!isLoaded) {
     return (
@@ -136,70 +153,67 @@ export default function CVAnalyserPage() {
       </nav>
 
       <div className="relative z-10 max-w-3xl mx-auto px-4 sm:px-6 pb-24 pt-4">
-        <div className="mb-8">
-          <h1 className="text-3xl font-bold bg-gradient-to-r from-white via-purple-200 to-cyan-200 bg-clip-text text-transparent mb-2">
-            Analyse your CV
-          </h1>
-          <p className="text-gray-400 text-sm leading-relaxed">
-            Paste a job description and your CV. We'll find what's hiding your strengths and rewrite the weakest sections.
-          </p>
-        </div>
 
-        {/* Rate-limited */}
-        {status === 'rate-limited' && (
-          <div className="bg-yellow-500/10 border border-yellow-500/30 rounded-2xl p-6 text-center space-y-3">
-            <p className="text-yellow-300 font-semibold">
-              You've used your 5 analyses for today — come back tomorrow.
+        {/* Orphaned state */}
+        {status === 'orphaned' && (
+          <div className="text-center py-24 space-y-6">
+            <div className="text-5xl">🔍</div>
+            <h1 className="text-2xl font-black text-white">No submission found</h1>
+            <p className="text-gray-400 max-w-sm mx-auto leading-relaxed">
+              Your free analysis has expired or was cleared. Submissions are kept for 1 hour.
+              Head back to /try to run a new one — it only takes 30 seconds.
             </p>
-            <Link
-              href="/dashboard"
-              className="inline-block px-6 py-2 rounded-full border border-white/10 bg-white/5 text-sm font-medium hover:bg-white/10 transition-all"
-            >
-              Go to Dashboard
-            </Link>
-          </div>
-        )}
-
-        {/* Error */}
-        {status === 'error' && (
-          <div className="bg-red-500/10 border border-red-500/30 rounded-2xl p-5 flex items-start gap-3 mb-6">
-            <span className="text-red-400 text-lg shrink-0">⚠</span>
-            <div>
-              <p className="text-red-300 text-sm">{error}</p>
-              <button
-                onClick={handleReset}
-                className="mt-2 text-xs text-gray-500 hover:text-gray-300 transition-colors underline"
+            <div className="flex flex-col sm:flex-row gap-3 justify-center">
+              <Link
+                href="/try"
+                className="px-8 py-3 rounded-full bg-gradient-to-r from-purple-500 to-cyan-500 text-white font-bold hover:from-purple-600 hover:to-cyan-600 transition-all"
               >
-                Try again
-              </button>
+                Run a new free analysis
+              </Link>
+              <Link
+                href="/dashboard"
+                className="px-8 py-3 rounded-full border border-white/10 bg-white/5 text-white font-medium hover:bg-white/10 transition-all"
+              >
+                Go to Dashboard
+              </Link>
             </div>
           </div>
         )}
 
-        {/* Form — shown when idle or after error (resetKey forces remount to clear fields) */}
-        {(status === 'idle' || status === 'error') && (
-          <AnalysisForm
-            key={resetKey}
-            onSubmit={handleSubmit}
-            isLoading={false}
+        {/* Loading / streaming */}
+        {(status === 'loading' || status === 'streaming') && !result && (
+          <LoadingState
+            message={status === 'loading' ? 'Preparing your full analysis...' : 'Analysing all 7 issues...'}
           />
         )}
 
-        {/* Spinner before first chunk arrives */}
-        {status === 'streaming' && !result && (
-          <LoadingState message="Analysing your CV..." />
+        {/* Error */}
+        {status === 'error' && (
+          <div className="bg-red-500/10 border border-red-500/30 rounded-2xl p-5 flex items-start gap-3 mt-6">
+            <span className="text-red-400 text-lg shrink-0">⚠</span>
+            <div>
+              <p className="text-red-300 text-sm">{error}</p>
+              <Link
+                href="/try"
+                className="mt-2 inline-block text-xs text-gray-500 hover:text-gray-300 transition-colors underline"
+              >
+                Start a new analysis
+              </Link>
+            </div>
+          </div>
         )}
 
-        {/* Streaming / done result */}
-        {result && (
+        {/* Teaser + full result + CTAs */}
+        {(status === 'streaming' || status === 'done') && (teaserResult || result) && (
           <div ref={resultRef}>
             <AnalysisResult
               result={result}
               isStreaming={status === 'streaming'}
+              teaserResult={teaserResult || undefined}
               ctas={[
                 { label: 'Generate tailored CV', onClick: () => { track('tailored_cv_cta_clicked'); router.push('/try/tailored-cv'); }, variant: 'primary' },
                 { label: 'Practice with the interviewer', href: '/interview', variant: 'secondary' },
-                { label: 'Run another analysis', onClick: handleReset, variant: 'secondary' },
+                { label: 'Run another analysis', href: '/try', variant: 'secondary' },
               ]}
             />
           </div>
