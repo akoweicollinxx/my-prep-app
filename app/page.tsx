@@ -188,12 +188,12 @@ export default function LandingPage() {
       </div>
 
       {/* ── Nav ────────────────────────────────────────────────────────── */}
-      <nav className="relative z-10 flex items-center justify-between px-6 py-8 max-w-7xl mx-auto">
+      <nav className="relative z-10 flex items-center justify-between px-4 py-5 sm:px-6 sm:py-8 max-w-7xl mx-auto">
         <div className="flex items-center space-x-2">
-          <div className="w-10 h-10 bg-gradient-to-br from-purple-500 to-cyan-500 rounded-full flex items-center justify-center">
-            <div className="w-6 h-6 bg-white rounded-full animate-pulse" />
+          <div className="w-8 h-8 sm:w-10 sm:h-10 bg-gradient-to-br from-purple-500 to-cyan-500 rounded-full flex items-center justify-center">
+            <div className="w-4 h-4 sm:w-6 sm:h-6 bg-white rounded-full animate-pulse" />
           </div>
-          <h1 className="text-2xl font-semibold bg-gradient-to-r from-purple-400 to-cyan-400 bg-clip-text text-transparent">
+          <h1 className="text-lg sm:text-2xl font-semibold bg-gradient-to-r from-purple-400 to-cyan-400 bg-clip-text text-transparent">
             NextEmployed
           </h1>
         </div>
@@ -256,33 +256,36 @@ export default function LandingPage() {
               AI interviewer adapts to your answers. Get feedback on pace, filler words, and how you frame your experience.
             </p>
           </div>
-          
-          <h1 className="text-6xl md:text-8xl font-black tracking-tighter leading-[1.1] max-w-4xl mx-auto">
-              Walk Into Any Interview <br />
-            <span className="bg-clip-text text-transparent bg-gradient-to-r from-purple-400 via-cyan-400 to-emerald-400 animate-gradient-x bg-[length:200%_200%]">
-              Ready to Win
-            </span>
-          </h1>
-          
-          <p className="text-gray-400 text-lg md:text-xl max-w-2xl mx-auto leading-relaxed">
-            Fix your CV, understand the role, and practice with AI before the real interview.
-          </p>
 
-          <div className="text-center mt-8">
+          {demoVideoUrl ? (
+            <video
+              ref={videoRef}
+              autoPlay
+              muted
+              loop
+              playsInline
+              preload="metadata"
+              src={demoVideoUrl}
+              className="w-full rounded-3xl border border-white/10 shadow-2xl"
+            />
+          ) : (
+            <div
+              ref={videoPlaceholderRef}
+              className="w-full aspect-video rounded-3xl border border-white/10 bg-white/[0.02] flex items-center justify-center"
+            >
+              <p className="text-gray-600 text-sm text-center px-6">
+                Demo video coming soon — drop the file at /public/video/demo.mp4 and set NEXT_PUBLIC_DEMO_VIDEO_URL
+              </p>
+            </div>
+          )}
+
+          <div className="text-center mt-10">
             <Link
               href="/interview"
               onClick={() => track("homepage_try_cta_clicked", { cta: "demo" })}
-              className="group inline-flex px-8 py-4 rounded-full bg-gradient-to-r from-purple-600 to-cyan-600 text-white font-bold text-lg hover:shadow-[0_0_40px_rgba(147,51,234,0.3)] transition-all transform hover:scale-105 active:scale-95"
+              className="inline-flex px-8 py-4 rounded-full bg-gradient-to-r from-purple-600 to-cyan-600 text-white font-bold text-lg hover:shadow-[0_0_40px_rgba(147,51,234,0.3)] transition-all transform hover:scale-105 active:scale-95"
             >
-              Start Practicing Free
-              <svg 
-                className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" 
-                fill="none" 
-                viewBox="0 0 24 24" 
-                stroke="currentColor"
-              >
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="13 7l5 5m0 0l-5 5m5-5H6" />
-              </svg>
+              Practice a mock interview
             </Link>
           </div>
         </div>
