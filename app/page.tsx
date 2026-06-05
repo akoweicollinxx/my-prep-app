@@ -272,7 +272,7 @@ export default function LandingPage() {
             <Link
               href="/interview"
               onClick={() => track("homepage_try_cta_clicked", { cta: "demo" })}
-              className="inline-flex px-8 py-4 rounded-full bg-gradient-to-r from-purple-600 to-cyan-600 text-white font-bold text-lg hover:shadow-[0_0_40px_rgba(147,51,234,0.3)] transition-all transform hover:scale-105 active:scale-95"
+              className="group inline-flex px-8 py-4 rounded-full bg-gradient-to-r from-purple-600 to-cyan-600 text-white font-bold text-lg hover:shadow-[0_0_40px_rgba(147,51,234,0.3)] transition-all transform hover:scale-105 active:scale-95"
             >
               Start Practicing Free
               <svg 
