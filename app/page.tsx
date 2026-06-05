@@ -256,33 +256,17 @@ export default function LandingPage() {
               AI interviewer adapts to your answers. Get feedback on pace, filler words, and how you frame your experience.
             </p>
           </div>
-
-          <div className="rounded-3xl overflow-hidden border border-purple-500/30 bg-black/40 backdrop-blur-sm shadow-2xl">
-            {demoVideoUrl ? (
-              <video
-                ref={videoRef}
-                autoPlay
-                muted
-                loop
-                playsInline
-                preload="metadata"
-                src={demoVideoUrl}
-                className="w-full block"
-              />
-            ) : (
-              // Placeholder — shown until you set NEXT_PUBLIC_DEMO_VIDEO_URL
-              // Record with Loom or ScreenStudio: MP4, 1920×1080, 20-30 seconds,
-              // no audio needed (muted). Upload to your CDN or /public/video/.
-              <div ref={videoPlaceholderRef} className="aspect-video flex flex-col items-center justify-center bg-gradient-to-br from-purple-900/30 to-black p-8 text-center">
-                <div className="text-5xl mb-4 opacity-40">🎬</div>
-                <p className="text-gray-500 text-sm max-w-xs">
-                  Demo video coming soon — set{" "}
-                  <code className="text-purple-400 text-xs">NEXT_PUBLIC_DEMO_VIDEO_URL</code>{" "}
-                  in your env vars to display it here.
-                </p>
-              </div>
-            )}
-          </div>
+          
+          <h1 className="text-6xl md:text-8xl font-black tracking-tighter leading-[1.1] max-w-4xl mx-auto">
+              Walk Into Any Interview <br />
+            <span className="bg-clip-text text-transparent bg-gradient-to-r from-purple-400 via-cyan-400 to-emerald-400 animate-gradient-x bg-[length:200%_200%]">
+              Ready to Win
+            </span>
+          </h1>
+          
+          <p className="text-gray-400 text-lg md:text-xl max-w-2xl mx-auto leading-relaxed">
+            Fix your CV, understand the role, and practice with AI before the real interview.
+          </p>
 
           <div className="text-center mt-8">
             <Link
@@ -290,7 +274,15 @@ export default function LandingPage() {
               onClick={() => track("homepage_try_cta_clicked", { cta: "demo" })}
               className="inline-flex px-8 py-4 rounded-full bg-gradient-to-r from-purple-600 to-cyan-600 text-white font-bold text-lg hover:shadow-[0_0_40px_rgba(147,51,234,0.3)] transition-all transform hover:scale-105 active:scale-95"
             >
-              Practice a mock interview
+              Start Practicing Free
+              <svg 
+                className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" 
+                fill="none" 
+                viewBox="0 0 24 24" 
+                stroke="currentColor"
+              >
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="13 7l5 5m0 0l-5 5m5-5H6" />
+              </svg>
             </Link>
           </div>
         </div>
