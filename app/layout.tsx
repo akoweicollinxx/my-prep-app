@@ -1,12 +1,9 @@
 import type { Metadata } from 'next'
-import {
-  ClerkProvider,
-  SignedIn,
-  UserButton,
-} from '@clerk/nextjs'
+import { ClerkProvider } from '@clerk/nextjs'
 import { Geist, Geist_Mono } from 'next/font/google'
 import { PostHogProvider } from '@/components/providers/PostHogProvider'
 import { PostHogIdentify } from '@/components/providers/PostHogIdentify'
+import { UserNav } from '@/components/UserNav'
 import './globals.css'
 
 const geistSans = Geist({
@@ -37,9 +34,7 @@ export default function RootLayout({
           <PostHogProvider>
             <PostHogIdentify />
             <header className="flex justify-end items-center p-4 gap-4 h-16">
-              <SignedIn>
-                <UserButton />
-              </SignedIn>
+              <UserNav />
             </header>
             {children}
           </PostHogProvider>

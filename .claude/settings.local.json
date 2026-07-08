@@ -3,7 +3,9 @@
     "allow": [
       "Bash(npm install *)",
       "Bash(npm run *)",
-      "Bash(npx tsc *)"
+      "Bash(npx tsc *)",
+      "Bash(git checkout -- components/AuthSync.tsx)",
+      "Bash(rm \"components/AuthSync.tsx\")"
     ]
   }
 }
