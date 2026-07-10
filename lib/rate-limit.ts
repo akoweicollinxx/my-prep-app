@@ -1,3 +1,9 @@
+// Payment processor: Stripe (via Clerk Billing).
+// VAT handling: Stripe Tax is enabled in the Stripe dashboard.
+// EU/UK VAT is calculated automatically per customer location.
+// For OSS quarterly filing, download tax reports from Stripe Tax → Reports.
+// If Stripe Tax is ever disabled, VAT compliance becomes manual — do not disable without a plan.
+
 // TODO: swap this in-memory store for Upstash Redis before production
 // (in-memory resets on every cold start and is not shared across serverless instances)
 
@@ -100,4 +106,91 @@ export function getMonthlyUsage(userId: string): { used: number; remaining: numb
     return { used: 0, remaining: TAILORED_CV_MONTHLY_LIMIT, resetDate };
   }
   return { used: entry.count, remaining: TAILORED_CV_MONTHLY_LIMIT - entry.count, resetDate };
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// MOCK INTERVIEW WEEKLY LIMIT (billing gate — free tier only)
+// ─────────────────────────────────────────────────────────────────────────────
+
+// BILLING_CUTOFF_DATE — SET THIS TO YOUR EXACT LAUNCH DATE BEFORE DEPLOYING
+//
+// Users who signed up BEFORE this date are "legacy_free" and retain unlimited
+// mock interviews regardless of subscription status.
+//
+// CRITICAL — getting this wrong:
+//   Too early  (before any real users existed): nobody qualifies as legacy_free.
+//              Existing users get 1 interview/week like new free users. Bad UX.
+//   Too late   (still in the future on deploy): every signup until that date gets
+//              unlimited interviews = free Pro tier. KILLS conversion. CRITICAL BUG.
+//   Not set    (invalid date, as below): isNaN check fires, no grandfathering,
+//              all free users get 1/week. Safest failure mode for launch.
+//
+// Set to the date you actually enable billing in production, e.g.:
+//   export const BILLING_CUTOFF_DATE = new Date('2026-07-15T00:00:00Z');
+export const BILLING_CUTOFF_DATE = new Date('TODO_SET_ON_DEPLOY');
+
+if (typeof process !== 'undefined') {
+  const ts = BILLING_CUTOFF_DATE.getTime();
+  if (isNaN(ts)) {
+    console.warn(
+      '[NextEmployed] BILLING_CUTOFF_DATE is not set. ' +
+      'Legacy-free grandfathering is disabled — set this before launch.'
+    );
+  } else if (ts > Date.now()) {
+    console.error(
+      '[NextEmployed] BILLING_CUTOFF_DATE is in the FUTURE. ' +
+      'All new signups will get unlimited interviews until that date. Fix before launch!'
+    );
+  }
+}
+
+const INTERVIEW_FREE_WEEKLY_LIMIT = 1;
+const weeklyInterviewStore = new Map<string, Entry>();
+
+function getWeekResetAt(): number {
+  const now = new Date();
+  // ISO week starts Monday. getUTCDay(): 0=Sun,1=Mon,...,6=Sat
+  const daysFromMonday = (now.getUTCDay() + 6) % 7;
+  const weekStart = Date.UTC(
+    now.getUTCFullYear(),
+    now.getUTCMonth(),
+    now.getUTCDate() - daysFromMonday,
+  );
+  return weekStart + 7 * 24 * 60 * 60 * 1000; // next Monday 00:00:00 UTC
+}
+
+// Records one interview attempt and returns whether it was within the free limit.
+// Call this BEFORE vapi.start() — if vapi fails afterward the slot is still consumed.
+export function checkAndRecordWeeklyInterview(userId: string): { allowed: boolean; remaining: number } {
+  const now = Date.now();
+  const resetAt = getWeekResetAt();
+
+  if (weeklyInterviewStore.size > MAX_STORE_SIZE) {
+    for (const [k, entry] of weeklyInterviewStore) {
+      if (now > entry.resetAt) weeklyInterviewStore.delete(k);
+    }
+  }
+
+  const entry = weeklyInterviewStore.get(userId);
+
+  if (!entry || now > entry.resetAt) {
+    weeklyInterviewStore.set(userId, { count: 1, resetAt });
+    return { allowed: true, remaining: INTERVIEW_FREE_WEEKLY_LIMIT - 1 };
+  }
+
+  if (entry.count >= INTERVIEW_FREE_WEEKLY_LIMIT) {
+    return { allowed: false, remaining: 0 };
+  }
+
+  entry.count++;
+  return { allowed: true, remaining: INTERVIEW_FREE_WEEKLY_LIMIT - entry.count };
+}
+
+// Peek at usage without consuming a slot (used for UI state, not enforcement).
+export function peekWeeklyInterviewUsage(userId: string): { used: number; resetDate: string } {
+  const now = Date.now();
+  const entry = weeklyInterviewStore.get(userId);
+  const resetDate = new Date(getWeekResetAt()).toISOString().split('T')[0];
+  if (!entry || now > entry.resetAt) return { used: 0, resetDate };
+  return { used: entry.count, resetDate };
 }

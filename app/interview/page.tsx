@@ -3,9 +3,11 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useUser } from '@clerk/nextjs';
+import Link from 'next/link';
 import vapi from '@/lib/vapi';
 import { track } from '@/lib/track';
 import { SUBMISSION_KEY } from '@/lib/submission-key';
+import type { InterviewLimitResponse } from '@/app/api/interview/check-limit/route';
 
 // TODO: Drop final portrait at /public/interviewers/sarah-chen.jpg
 // Recommended specs: 512×512px, neutral expression, head-and-shoulders,
@@ -175,6 +177,7 @@ export default function InterviewPage() {
   const [jdContext, setJdContext] = useState<JdContext | null>(null);
   const [contextLoading, setContextLoading] = useState(false);
   const [showJdModal, setShowJdModal] = useState(false);
+  const [limitBlocked, setLimitBlocked] = useState(false);
 
   const transcriptEndRef = useRef<HTMLDivElement>(null);
 
@@ -312,6 +315,28 @@ export default function InterviewPage() {
     }
     setVapiError(null);
     setVapiConnecting(true);
+
+    // Belt-and-braces: check server-side tier limit before spending any Vapi budget.
+    try {
+      const limitRes = await fetch('/api/interview/check-limit', { method: 'POST' });
+      const limitData: InterviewLimitResponse | { error: string } = await limitRes.json();
+      if (!limitRes.ok || !('allowed' in limitData)) {
+        setVapiConnecting(false);
+        setVapiError("Couldn't verify your interview limit. Please try again.");
+        return;
+      }
+      if (!limitData.allowed) {
+        setVapiConnecting(false);
+        setLimitBlocked(true);
+        track('interview_limit_hit', { source: 'interview_page' });
+        return;
+      }
+    } catch {
+      setVapiConnecting(false);
+      setVapiError("Couldn't verify your interview limit. Please try again.");
+      return;
+    }
+
     track('interview_started', {
       role: jdContext?.role ?? null,
       company: jdContext?.company ?? null,
@@ -622,6 +647,43 @@ export default function InterviewPage() {
           onClose={() => setShowJdModal(false)}
           isParsing={contextLoading}
         />
+      )}
+
+      {/* ── Weekly limit upgrade wall ────────────────────────────── */}
+      {limitBlocked && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm px-4">
+          <div className="bg-gray-950 border border-white/10 rounded-3xl p-8 w-full max-w-md shadow-2xl text-center space-y-5">
+            {/* Icon */}
+            <div className="w-14 h-14 rounded-full bg-gradient-to-br from-purple-600/30 to-cyan-600/30 border border-purple-500/30 flex items-center justify-center mx-auto">
+              <svg className="w-7 h-7 text-purple-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M16.5 10.5V6.75a4.5 4.5 0 1 0-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 0 0 2.25-2.25v-6.75a2.25 2.25 0 0 0-2.25-2.25H6.75a2.25 2.25 0 0 0-2.25 2.25v6.75a2.25 2.25 0 0 0 2.25 2.25z" />
+              </svg>
+            </div>
+
+            <div className="space-y-2">
+              <h2 className="text-xl font-bold text-white">You&apos;ve had your practice interview this week</h2>
+              <p className="text-gray-400 text-sm leading-relaxed">
+                Real interviews don&apos;t wait. Upgrade for unlimited mock interviews — practice as much as you need, whenever you need.
+              </p>
+            </div>
+
+            <div className="flex flex-col gap-3 pt-1">
+              <Link
+                href="/pricing"
+                onClick={() => track('pricing_upgrade_clicked', { source: 'interview_limit_hit' })}
+                className="inline-flex items-center justify-center px-6 py-3 rounded-full bg-gradient-to-r from-purple-600 to-cyan-600 text-white font-semibold text-sm hover:shadow-[0_0_30px_rgba(147,51,234,0.3)] hover:scale-105 active:scale-95 transition-all"
+              >
+                Upgrade to Pro — £12.99/month
+              </Link>
+              <button
+                onClick={() => router.push('/')}
+                className="text-gray-500 text-sm hover:text-gray-300 transition-colors"
+              >
+                Back to dashboard
+              </button>
+            </div>
+          </div>
+        </div>
       )}
     </main>
   );
